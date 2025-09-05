@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🏗 Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 20.x
           cache: npm
 
       - name: 🏗 Setup EAS
@@ -26,60 +26,10 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: 📦 Install dependencies
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       - name: 🚀 Build standalone iOS app
-        run: eas build --platform ios --profile github --non-interactive
+        run: eas build --platform ios --profile github --non-interactive --wait
 
-      - name: 📱 Get build artifact
-        id: build
-        run: |
-          BUILD_URL=$(eas build:list --platform=ios --status=finished --limit=1 --json | jq -r '.[0].artifacts.buildUrl')
-          echo "build_url=$BUILD_URL" >> $GITHUB_OUTPUT
-          curl -L -o momentum.ipa "$BUILD_URL"
-
-      - name: 📦 Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: v${{ github.run_number }}
-          name: 📱 Momentum iOS App v${{ github.run_number }}
-          body: |
-            🚀 **Momentum Productivity App - iOS Release**
-            
-            ## 📱 Installation Methods:
-            
-            ### 🏴‍☠️ TrollStore (Permanent - iOS 14-16.6.1)
-            - Download the `momentum.ipa` file below
-            - Open in TrollStore → Tap "Install"
-            - **Permanent installation - works forever!**
-            
-            ### ⚡ AltStore (7-day refresh)  
-            - Download the `momentum.ipa` file below
-            - Install via AltStore
-            - Refresh weekly via AltStore
-            
-            ### 📱 Sideloadly (Computer needed)
-            - Download the `momentum.ipa` file below  
-            - Use Sideloadly to install on your device
-            
-            ## ✨ App Features:
-            - 🧠 **Smart Focus Sessions** with brain shortcuts
-            - 📸 **Camera Food Scanning** for nutrition tracking
-            - 🌐 **Full Translations** (Polish/English)
-            - 📱 **Mobile-Optimized** navigation and design
-            - 🎯 **Task Management** & productivity tracking
-            - 🌙 **Dark Theme** optimized for iOS
-            
-            ## 📋 Installation Instructions:
-            1. Download the `.ipa` file below
-            2. Choose your installation method above
-            3. Follow the specific instructions for your method
-            4. Enjoy your standalone iOS app!
-            
-            ---
-            **Built with ❤️ using Expo & React**
-          files: momentum.ipa
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 📱 Create success notification
+        run: echo "✅ Build completed! Check EAS dashboard for download link."
