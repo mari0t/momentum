@@ -23,8 +23,10 @@
         "NSCameraUsageDescription": "This app uses the camera to scan food items for nutrition tracking.",
         "NSMicrophoneUsageDescription": "This app may use the microphone for voice features.",
         "UIBackgroundModes": [
+          "background-processing",
           "background-processing"
-        ]
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -36,7 +38,7 @@
       "versionCode": 1
     },
     "web": {
-      "bundler": "vite",
+      "bundler": "metro",
       "favicon": "./public/icon.png"
     },
     "extra": {

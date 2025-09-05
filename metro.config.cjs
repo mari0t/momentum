@@ -1,6 +1,6 @@
-import { getDefaultConfig } from 'expo/metro-config.js';
+const { getDefaultConfig } = require('expo/metro-config');
 
-const config = getDefaultConfig(import.meta.url);
+const config = getDefaultConfig(__dirname);
 
 // Enable web support
 config.resolver.platforms = ['ios', 'android', 'web'];
@@ -8,4 +8,4 @@ config.resolver.platforms = ['ios', 'android', 'web'];
 // Support for .jsx files
 config.resolver.sourceExts.push('jsx');
 
-export default config;
+module.exports = config;
