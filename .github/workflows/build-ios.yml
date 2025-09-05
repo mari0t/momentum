@@ -30,6 +30,9 @@ jobs:
 
       - name: 🚀 Build standalone iOS app
         run: eas build --platform ios --profile github --non-interactive --wait
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
 
       - name: 📱 Create success notification
         run: echo "✅ Build completed! Check EAS dashboard for download link."
