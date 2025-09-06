@@ -22,6 +22,9 @@
     "ios:github": "eas build --platform ios --profile github"
   },
   "dependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/ios": "^7.4.3",
     "date-fns": "^2.30.0",
     "expo": "^53.0.22",
     "expo-dev-client": "^5.2.4",
