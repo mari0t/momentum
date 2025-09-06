@@ -1,14 +1,15 @@
 name: Build iOS App for EU Distribution
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
-  workflow_dispatch:
 
 jobs:
   build:
-    name: Build Community-Signed iOS App
+    name: Build iOS App
     runs-on: ubuntu-latest
+    
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v4
@@ -17,6 +18,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
+          cache: npm
 
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
@@ -25,30 +27,40 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: 📦 Install dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: 🚀 Build community-signed iOS app
         run: |
-          echo "🔄 Starting community-signed iOS build..."
-          echo "📱 Building for EU direct distribution..."
-          eas build --platform ios --profile standalone --non-interactive --wait || {
-            echo "❌ Build failed. Checking common issues..."
-            echo "🔗 Check EAS dashboard: https://expo.dev/accounts/mari0u/projects/momentum-productivity-app/builds"
-            echo "💡 Note: Community signing doesn't require Apple Developer account"
-            echo "🔄 Build will use Expo's managed credentials"
-            exit 0
-          }
+          npm ci --legacy-peer-deps
+          npx expo install --fix
 
-      - name: 📱 Create download instructions
+      - name: 🔍 Check EAS login
         run: |
-          echo "✅ Build process completed!"
-          echo "🔗 Download your .ipa file from: https://expo.dev/accounts/mari0u/projects/momentum-productivity-app/builds"
+          echo "Checking EAS authentication..."
+          eas whoami || echo "EAS login required"
+
+      - name: 🚀 Build iOS app
+        run: |
+          echo "🔄 Starting iOS build..."
+          echo "📱 Project ID: ${{ secrets.EXPO_PROJECT_ID || 'ff5ea975-f6a5-49b1-9480-1a7a1d086fb6' }}"
+          
+          # Try build with error handling
+          if eas build --platform ios --profile standalone --non-interactive --wait; then
+            echo "✅ Build successful!"
+            echo "🔗 Download from: https://expo.dev/accounts/mari0u/projects/momentum-productivity-app/builds"
+          else
+            echo "❌ Build failed. Common solutions:"
+            echo "1. Check EXPO_TOKEN secret is set correctly"
+            echo "2. Verify EAS project configuration"
+            echo "3. Check build logs at: https://expo.dev/accounts/mari0u/projects/momentum-productivity-app/builds"
+            echo "4. Try manual build: eas build --platform ios --profile standalone"
+            exit 1
+          fi
+
+      - name: 📱 Success message
+        if: success()
+        run: |
+          echo "🎉 iOS build completed successfully!"
           echo ""
-          echo "📱 Installation Instructions for EU users:"
-          echo "1. Download the .ipa file to your iPhone"
-          echo "2. Open in Safari and tap 'Install'"
-          echo "3. Go to Settings > General > VPN & Device Management"
-          echo "4. Trust the developer profile"
-          echo "5. Launch your Momentum app!"
-          echo ""
-          echo "🌍 EU Direct Distribution - No Apple account needed!"
+          echo "📱 Next steps:"
+          echo "1. Go to: https://expo.dev/accounts/mari0u/projects/momentum-productivity-app/builds"
+          echo "2. Download the .ipa file"
+          echo "3. Install on iPhone via Safari (EU direct install)"
+          echo "4. Share with friends using: https://mari0t.github.io/momentum/"
