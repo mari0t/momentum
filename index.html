@@ -15,21 +15,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <title>Momentum - Productivity App</title>
-    
-    <!-- Service Worker for Offline Support -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              console.log('✅ SW registered: ', registration);
-            })
-            .catch((registrationError) => {
-              console.log('❌ SW registration failed: ', registrationError);
-            });
-        });
-      }
-    </script>
   </head>
   <body>
     <div id="root"></div>
