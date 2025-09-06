@@ -1,0 +1,21 @@
+{
+  "name": "Momentum - Productivity App",
+  "short_name": "Momentum",
+  "description": "Mobile productivity application focused on wellness and focus",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.png?v=2",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "health", "lifestyle"],
+  "lang": "en",
+  "dir": "ltr"
+}

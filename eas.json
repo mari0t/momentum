@@ -17,7 +17,9 @@
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium",
-        "autoIncrement": "buildNumber"
+        "autoIncrement": "buildNumber",
+        "simulator": false,
+        "buildConfiguration": "Release"
       }
     },
     "development": {
