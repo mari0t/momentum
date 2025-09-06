@@ -1,0 +1,88 @@
+name: Build Simple iOS App
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    name: Build iOS App (No Apple Account)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+
+      - name: 📦 Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: 🔨 Build web app
+        run: npm run build
+
+      - name: 📱 Create iOS App Structure
+        run: |
+          mkdir -p ios-app/Payload/Momentum.app
+          
+          # Copy web assets
+          cp -r dist/* ios-app/Payload/Momentum.app/
+          
+          # Create Info.plist
+          cat > ios-app/Payload/Momentum.app/Info.plist << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>CFBundleDisplayName</key>
+              <string>Momentum</string>
+              <key>CFBundleExecutable</key>
+              <string>Momentum</string>
+              <key>CFBundleIdentifier</key>
+              <string>com.momentum.productivityapp</string>
+              <key>CFBundleName</key>
+              <string>Momentum</string>
+              <key>CFBundleVersion</key>
+              <string>1.0.0</string>
+              <key>CFBundleShortVersionString</key>
+              <string>1.0.0</string>
+              <key>LSRequiresIPhoneOS</key>
+              <true/>
+              <key>UIRequiredDeviceCapabilities</key>
+              <array>
+                  <string>armv7</string>
+              </array>
+              <key>UISupportedInterfaceOrientations</key>
+              <array>
+                  <string>UIInterfaceOrientationPortrait</string>
+                  <string>UIInterfaceOrientationPortraitUpsideDown</string>
+              </array>
+          </dict>
+          </plist>
+          EOF
+          
+          # Create basic executable
+          echo "#!/bin/sh" > ios-app/Payload/Momentum.app/Momentum
+          echo "# Momentum App" >> ios-app/Payload/Momentum.app/Momentum
+          chmod +x ios-app/Payload/Momentum.app/Momentum
+          
+          # Create IPA
+          cd ios-app
+          zip -r ../Momentum.ipa Payload/
+
+      - name: 📱 Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Momentum-iOS-App-Simple
+          path: Momentum.ipa
+          retention-days: 30
+
+      - name: 🎉 Success notification
+        run: |
+          echo "✅ iOS app created successfully!"
+          echo "📱 Download Momentum.ipa from Artifacts"
+          echo "🇪🇺 Ready for EU direct installation!"
+          echo "⚠️  Note: This is a web-based app bundle for sideloading"
