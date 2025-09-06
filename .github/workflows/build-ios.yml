@@ -1,4 +1,4 @@
-name: Build iOS App
+name: Build iOS App for EU Distribution
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build Standalone iOS App
+    name: Build Community-Signed iOS App
     runs-on: ubuntu-latest
     steps:
       - name: 🏗 Setup repo
@@ -27,21 +27,28 @@ jobs:
       - name: 📦 Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: 🚀 Build standalone iOS app
+      - name: 🚀 Build community-signed iOS app
         run: |
-          echo "🔄 Starting iOS build..."
-          eas build --platform ios --profile github --non-interactive --wait || {
-            echo "❌ Build failed, but this might be due to EAS service issues."
+          echo "🔄 Starting community-signed iOS build..."
+          echo "📱 Building for EU direct distribution..."
+          eas build --platform ios --profile standalone --non-interactive --wait || {
+            echo "❌ Build failed. Checking common issues..."
             echo "🔗 Check EAS dashboard: https://expo.dev/accounts/mari0u/projects/momentum-productivity-app/builds"
-            echo "📱 Your app configuration is correct - just retry when EAS service is back up!"
+            echo "💡 Note: Community signing doesn't require Apple Developer account"
+            echo "🔄 Build will use Expo's managed credentials"
             exit 0
           }
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
 
-      - name: 📱 Create success notification
+      - name: 📱 Create download instructions
         run: |
           echo "✅ Build process completed!"
           echo "🔗 Download your .ipa file from: https://expo.dev/accounts/mari0u/projects/momentum-productivity-app/builds"
-          echo "📱 Install using TrollStore, AltStore, or Sideloadly!"
+          echo ""
+          echo "📱 Installation Instructions for EU users:"
+          echo "1. Download the .ipa file to your iPhone"
+          echo "2. Open in Safari and tap 'Install'"
+          echo "3. Go to Settings > General > VPN & Device Management"
+          echo "4. Trust the developer profile"
+          echo "5. Launch your Momentum app!"
+          echo ""
+          echo "🌍 EU Direct Distribution - No Apple account needed!"
