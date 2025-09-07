@@ -4,8 +4,9 @@
     "slug": "momentum-productivity-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "automatic",
     "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
@@ -17,13 +18,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.momentum.productivityapp",
-      "buildNumber": "3",
-      "icon": "./assets/icon.png",
+      "buildNumber": "1",
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to scan food items for nutrition tracking.",
         "NSMicrophoneUsageDescription": "This app may use the microphone for voice features.",
         "UIBackgroundModes": [
-          "background-processing",
           "background-processing"
         ],
         "ITSAppUsesNonExemptEncryption": false
@@ -38,7 +37,6 @@
       "versionCode": 1
     },
     "web": {
-      "bundler": "metro",
       "favicon": "./assets/icon.png"
     },
     "extra": {
@@ -46,9 +44,6 @@
         "projectId": "ff5ea975-f6a5-49b1-9480-1a7a1d086fb6"
       }
     },
-    "plugins": [],
-    "cli": {
-      "appVersionSource": "local"
-    }
+    "plugins": []
   }
 }

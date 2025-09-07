@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Launch Momentum App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .launcher {
+            text-align: center;
+            padding: 3rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+        
+        .launch-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .launch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+        
+        .instructions {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .method {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .method h3 {
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+        
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="launcher">
+        <div class="logo">🚀</div>
+        <h1 class="title">Momentum</h1>
+        <p class="subtitle">Productivity App Launcher</p>
+        
+        <button class="launch-btn" onclick="launchApp()">
+            🎯 Launch App
+        </button>
+        
+        <div class="instructions">
+            <h3>🎯 Quick Launch Methods:</h3>
+            
+            <div class="method">
+                <h3>📱 Method 1: Double-Click Files</h3>
+                <p>• <strong>Windows:</strong> Double-click <code>start-app.bat</code></p>
+                <p>• <strong>Mac/Linux:</strong> Double-click <code>start-app.sh</code></p>
+            </div>
+            
+            <div class="method">
+                <h3>🔨 Method 2: Production Build</h3>
+                <p>• Double-click <code>build-and-run.bat</code></p>
+                <p>• Gets optimized version</p>
+            </div>
+            
+            <div class="method">
+                <h3>⚡ Method 3: This Launcher</h3>
+                <p>• Click the blue button above</p>
+                <p>• Opens terminal and starts app</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function launchApp() {
+            alert('🚀 Starting Momentum App!\n\n1. A terminal window will open\n2. Wait for "Local: http://localhost:3002"\n3. Your app will open automatically!\n\nNote: Keep the terminal window open while using the app.');
+            
+            // Try to launch the batch file
+            try {
+                // This works in some browsers with local files
+                window.open('start-app.bat', '_blank');
+            } catch (e) {
+                // Fallback instructions
+                alert('📋 Manual Launch:\n\n1. Open terminal/command prompt\n2. Navigate to your app folder\n3. Run: npm run dev\n4. Open browser to localhost:3002');
+            }
+        }
+        
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const launcher = document.querySelector('.launcher');
+            
+            // Add floating animation
+            setInterval(() => {
+                launcher.style.transform = `translateY(${Math.sin(Date.now() * 0.001) * 5}px)`;
+            }, 16);
+        });
+    </script>
+</body>
+</html>

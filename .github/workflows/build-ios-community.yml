@@ -1,0 +1,86 @@
+name: Build iOS App (Community Signed)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'momentum-ios/**'
+
+jobs:
+  build-ios:
+    name: Build iOS App
+    runs-on: macos-latest
+    
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+          cache-dependency-path: momentum-ios/package-lock.json
+
+      - name: 📦 Install dependencies
+        working-directory: momentum-ios
+        run: |
+          npm ci
+          npm install -g @expo/cli eas-cli
+
+      - name: 🍎 Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: 🔧 Create iOS project
+        working-directory: momentum-ios
+        run: |
+          # Create a basic iOS project structure
+          mkdir -p ios
+          
+          # Generate iOS native code
+          npx expo prebuild --platform ios --clear
+          
+          echo "✅ iOS project created!"
+
+      - name: 🔨 Build iOS App
+        working-directory: momentum-ios
+        run: |
+          cd ios
+          
+          # Build the iOS app
+          xcodebuild -workspace *.xcworkspace \
+            -scheme * \
+            -configuration Release \
+            -destination generic/platform=iOS \
+            -archivePath MomentumApp.xcarchive \
+            archive
+          
+          # Export IPA
+          xcodebuild -exportArchive \
+            -archivePath MomentumApp.xcarchive \
+            -exportPath . \
+            -exportOptionsPlist ../export-options.plist
+          
+          echo "🎉 iOS build completed!"
+
+      - name: 📱 Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: momentum-ios-app
+          path: momentum-ios/ios/*.ipa
+          retention-days: 30
+
+      - name: 🎯 Success message
+        run: |
+          echo "🎉 iOS app built successfully!"
+          echo ""
+          echo "📱 Download your app:"
+          echo "1. Go to Actions tab in GitHub"
+          echo "2. Click on this workflow run"
+          echo "3. Download 'momentum-ios-app' artifact"
+          echo "4. Install on iPhone via Safari (EU direct install)"
+          echo ""
+          echo "🔗 Share with friends: https://github.com/${{ github.repository }}/actions"
