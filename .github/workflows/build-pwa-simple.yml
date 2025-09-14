@@ -1,0 +1,80 @@
+name: Build PWA for Direct Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-pwa:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install --legacy-peer-deps --force
+        
+    - name: Build PWA
+      run: npm run build
+        
+    - name: Create deployment package
+      run: |
+        mkdir -p deployment
+        cp -r dist/* deployment/
+        echo "# 📱 Momentum App - Ready to Deploy" > deployment/README.md
+        echo "" >> deployment/README.md
+        echo "## 🚀 How to Deploy:" >> deployment/README.md
+        echo "1. Upload all files to any web server" >> deployment/README.md
+        echo "2. Access via HTTPS (required for PWA)" >> deployment/README.md
+        echo "3. Install on iPhone via Safari" >> deployment/README.md
+        echo "" >> deployment/README.md
+        echo "## 📱 Install on iPhone:" >> deployment/README.md
+        echo "1. Open Safari on iPhone" >> deployment/README.md
+        echo "2. Go to your deployed URL" >> deployment/README.md
+        echo "3. Tap Share → Add to Home Screen" >> deployment/README.md
+        echo "4. Done! 🎉" >> deployment/README.md
+        
+    - name: Upload deployment package
+      uses: actions/upload-artifact@v4
+      with:
+        name: pwa-deployment
+        path: deployment/
+        retention-days: 30
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: pwa-v${{ github.run_number }}
+        name: PWA Deployment Package v${{ github.run_number }}
+        body: |
+          📱 **Momentum PWA Ready for Deployment**
+          
+          This package contains your complete PWA that can be deployed to any web server.
+          
+          **Deployment Options:**
+          - **Netlify**: Drag & drop the files
+          - **Vercel**: Connect your GitHub repo
+          - **GitHub Pages**: Upload to gh-pages branch
+          - **Any web server**: Upload all files
+          
+          **Installation on iPhone:**
+          1. Deploy to any HTTPS web server
+          2. Open Safari on iPhone
+          3. Go to your deployed URL
+          4. Tap Share → Add to Home Screen
+          5. Done! 🎉
+          
+          **Data Storage:** ✅ All data is stored locally and persists offline!
+          
+          Built on: ${{ github.event.head_commit.timestamp }}
+        files: deployment/*
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
