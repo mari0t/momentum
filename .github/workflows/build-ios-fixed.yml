@@ -1,0 +1,91 @@
+name: Build Native iOS App (Fixed)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-native-ios:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build web assets
+        run: npm run build
+
+      - name: Setup Capacitor iOS
+        run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/ios --legacy-peer-deps
+          npx cap sync ios
+
+      - name: Create ExportOptions.plist
+        run: |
+          cat > ios/ExportOptions.plist << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>development</string>
+              <key>compileBitcode</key>
+              <false/>
+              <key>stripSwiftSymbols</key>
+              <true/>
+              <key>thinning</key>
+              <string>&lt;none&gt;</string>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Build iOS app
+        run: |
+          cd ios
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -destination generic/platform=iOS -archivePath App.xcarchive archive
+          xcodebuild -exportArchive -archivePath App.xcarchive -exportPath . -exportOptionsPlist ExportOptions.plist
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: momentum-ios-app
+          path: ios/*.ipa
+          retention-days: 30
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ios/*.ipa
+          tag_name: ios-build-${{ github.run_number }}
+          name: Momentum iOS App (Free Build)
+          body: |
+            🚀 **Native iOS App Build**
+            
+            **Installation Options:**
+            1. **AltStore** - Automated 7-day refresh
+            2. **Sideloadly** - Automated 7-day refresh  
+            3. **EU DMA Sideloading** - Coming March 2024
+            
+            **Requirements:**
+            - iOS 12.0 or later
+            - AltStore or Sideloadly
+            
+            **Installation:**
+            1. Download the .ipa file
+            2. Use AltStore or Sideloadly
+            3. Install on your iPhone
+            4. Enjoy your native app!
+          draft: false
+          prerelease: false

@@ -24,7 +24,7 @@ jobs:
         npm install --legacy-peer-deps --force
         
     - name: Setup EAS CLI
-      run: npm install -g @expo/eas-cli@latest
+      run: npm install -g eas-cli@latest
       
     - name: Login to Expo
       run: eas login --non-interactive
