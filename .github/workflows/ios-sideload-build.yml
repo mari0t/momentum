@@ -22,7 +22,6 @@ jobs:
     - name: Install dependencies
       run: |
         npm install --legacy-peer-deps --force
-        npx expo install --fix --legacy-peer-deps
         
     - name: Setup EAS CLI
       run: npm install -g @expo/eas-cli@latest
@@ -37,12 +36,18 @@ jobs:
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
-    - name: Download build artifacts
+    - name: Get build info
       run: |
         mkdir -p artifacts
         eas build:list --platform ios --limit 1 --json > build-info.json
+        cat build-info.json
+        
+    - name: Download build artifacts
+      run: |
         BUILD_URL=$(cat build-info.json | jq -r '.[0].artifacts.buildUrl')
+        echo "Downloading from: $BUILD_URL"
         curl -L -o artifacts/momentum.ipa "$BUILD_URL"
+        ls -la artifacts/
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
