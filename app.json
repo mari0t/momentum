@@ -5,9 +5,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
-    "icon": "./assets/icon.png",
+    "icon": "./public/icon.png",
     "splash": {
-      "image": "./assets/icon.png",
+      "image": "./public/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#0f172a"
     },
@@ -17,21 +17,26 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.momentum.productivityapp",
-      "buildNumber": "3",
-      "icon": "./assets/icon.png",
+      "buildNumber": "4",
+      "icon": "./public/icon.png",
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to scan food items for nutrition tracking.",
         "NSMicrophoneUsageDescription": "This app may use the microphone for voice features.",
         "UIBackgroundModes": [
-          "background-processing",
           "background-processing"
         ],
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleDisplayName": "Momentum",
+        "CFBundleName": "Momentum",
+        "LSRequiresIPhoneOS": true,
+        "UIRequiredDeviceCapabilities": ["armv7"],
+        "UIStatusBarStyle": "UIStatusBarStyleDefault",
+        "UIViewControllerBasedStatusBarAppearance": false
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./public/icon.png",
         "backgroundColor": "#0f172a"
       },
       "package": "com.momentum.productivityapp",
@@ -39,16 +44,13 @@
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/icon.png"
+      "favicon": "./public/icon.png"
     },
     "extra": {
       "eas": {
         "projectId": "ff5ea975-f6a5-49b1-9480-1a7a1d086fb6"
       }
     },
-    "plugins": [],
-    "cli": {
-      "appVersionSource": "local"
-    }
+    "plugins": []
   }
 }

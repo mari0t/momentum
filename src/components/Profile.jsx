@@ -553,9 +553,9 @@ export default function Profile() {
 
       {/* Tab Content */}
       <div className="relative overflow-hidden">
-        {activeTab === 'overview' && (
+      {activeTab === 'overview' && (
           <div className="space-y-6 animate-fadeInUp">
-            {/* Progress Overview */}
+          {/* Progress Overview */}
           <div className="card">
                          <h3 className="text-lg font-semibold text-gray-100 mb-4 flex items-center gap-2">
                <BarChart3 className="w-5 h-5 text-primary-500" />
@@ -620,9 +620,9 @@ export default function Profile() {
         </div>
       )}
 
-        {activeTab === 'goals' && (
+      {activeTab === 'goals' && (
           <div className="space-y-6 animate-fadeInUp">
-            {/* Goals Header */}
+          {/* Goals Header */}
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-100">Długoterminowe cele</h2>
             <button
@@ -813,9 +813,9 @@ export default function Profile() {
         </div>
       )}
 
-        {activeTab === 'themes' && (
+      {activeTab === 'themes' && (
           <div className="space-y-6 animate-fadeInUp">
-            {/* Theme Creator Button */}
+          {/* Theme Creator Button */}
           <div className="text-center">
                          <button
                onClick={() => setShowThemeCreator(true)}
@@ -951,9 +951,9 @@ export default function Profile() {
         </div>
       )}
 
-        {activeTab === 'settings' && (
+      {activeTab === 'settings' && (
           <div className="space-y-6 animate-fadeInUp">
-            {/* Dark Mode Toggle */}
+          {/* Dark Mode Toggle */}
           <div className="card">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -1040,9 +1040,9 @@ export default function Profile() {
         </div>
       )}
 
-        {activeTab === 'data' && (
+      {activeTab === 'data' && (
           <div className="space-y-6 animate-fadeInUp">
-            {/* Data Overview */}
+          {/* Data Overview */}
           <div className="card">
             <h3 className="text-lg font-semibold text-gray-100 mb-4 flex items-center gap-2">
               <Database className="w-5 h-5 text-primary-500" />
@@ -1110,9 +1110,9 @@ export default function Profile() {
         </div>
       )}
 
-        {activeTab === 'achievements' && (
+      {activeTab === 'achievements' && (
           <div className="space-y-4 sm:space-y-6 animate-fadeInUp">
-            {/* Achievement Hero Section */}
+          {/* Achievement Hero Section */}
           <div className="card text-center bg-gradient-to-br from-yellow-600/20 to-orange-600/20 border-yellow-500/30 p-4 sm:p-6">
             <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">🏆</div>
             <h2 className="text-xl sm:text-2xl font-bold text-yellow-400 mb-1 sm:mb-2">Achievement Center</h2>
