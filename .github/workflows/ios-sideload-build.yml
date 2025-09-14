@@ -24,28 +24,31 @@ jobs:
         npm install --legacy-peer-deps
         npx expo install --fix
         
-    - name: Setup Expo CLI
-      run: npm install -g @expo/cli@latest
+    - name: Setup EAS CLI
+      run: npm install -g @expo/eas-cli@latest
       
     - name: Login to Expo
-      run: npx expo login --non-interactive
+      run: eas login --non-interactive
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         
     - name: Build iOS App
-      run: |
-        npx expo export --platform ios
-        npx expo build:ios --type archive --non-interactive
+      run: eas build --platform ios --profile standalone --non-interactive --wait
       env:
         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        
+    - name: Download build artifacts
+      run: |
+        mkdir -p artifacts
+        eas build:list --platform ios --limit 1 --json > build-info.json
+        BUILD_URL=$(cat build-info.json | jq -r '.[0].artifacts.buildUrl')
+        curl -L -o artifacts/momentum.ipa "$BUILD_URL"
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: ios-build
-        path: |
-          *.ipa
-          *.app
+        path: artifacts/*.ipa
         retention-days: 30
         
     - name: Create GitHub Release
@@ -59,7 +62,7 @@ jobs:
           This build contains a standalone iOS app that can be installed directly on your iPhone without an Apple Developer account.
           
           **Installation Instructions:**
-          1. Download the `.ipa` file from the artifacts below
+          1. Download the `.ipa` file below
           2. Use AltStore, Sideloadly, or similar tool to install
           3. Or install directly via Safari on iOS 17+ (EU only)
           
@@ -68,8 +71,7 @@ jobs:
           - iPhone/iPad
           
           Built on: ${{ github.event.head_commit.timestamp }}
-        files: |
-          *.ipa
+        files: artifacts/*.ipa
         draft: false
         prerelease: false
       env:
