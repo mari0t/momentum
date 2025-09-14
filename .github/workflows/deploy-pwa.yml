@@ -1,0 +1,68 @@
+name: Deploy PWA to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy-pwa:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install --legacy-peer-deps --force
+        
+    - name: Build PWA
+      run: npm run build
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+        cname: momentum-app.netlify.app
+        
+    - name: Create installation guide
+      run: |
+        cat > dist/install.md << 'EOF'
+        # 📱 Install Momentum App on iPhone
+        
+        ## 🎯 Direct Installation (Easiest)
+        1. **Open Safari** on your iPhone
+        2. **Go to**: https://mari0t.github.io/momentum/
+        3. **Tap the Share button** (square with arrow)
+        4. **Tap "Add to Home Screen"**
+        5. **Tap "Add"** - Done! 🎉
+        
+        ## ✅ What You Get:
+        - ✅ **Real app icon** on your home screen
+        - ✅ **Works offline** completely
+        - ✅ **No App Store** needed
+        - ✅ **No 7-day refresh** needed
+        - ✅ **Full screen** experience
+        - ✅ **Native app** feel
+        
+        ## 🔧 Alternative Methods:
+        - **Chrome**: Same process, use Chrome instead of Safari
+        - **Other browsers**: Look for "Install App" or "Add to Home Screen"
+        
+        ## 🎉 Enjoy Your App!
+        The app will work exactly like a native iOS app!
+        EOF
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: pwa-build
+        path: dist/
+        retention-days: 30

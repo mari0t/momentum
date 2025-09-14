@@ -1,54 +1,53 @@
 # 📱 iOS App Installation Guide
 
-## 🎯 Direct Sideloading (EU Users - iOS 17+)
+## 🎯 PWA Installation (Recommended - No Build Required!)
 
-Since you're in Europe, you can install apps directly from Safari without any third-party tools!
+Since you're in Europe, you can install the app directly from Safari without any complex build process!
 
 ### Method 1: Direct Safari Installation (Easiest)
 1. **Open Safari** on your iPhone
-2. **Go to**: `https://github.com/mari0t/momentum/releases`
-3. **Download** the latest `.ipa` file
-4. **Tap** the downloaded file in Safari
-5. **Install** when prompted
-6. **Trust** the developer in Settings > General > VPN & Device Management
+2. **Go to**: `https://mari0t.github.io/momentum/`
+3. **Tap the Share button** (square with arrow up)
+4. **Tap "Add to Home Screen"**
+5. **Tap "Add"** - Done! 🎉
 
-### Method 2: AltStore (Free, Works on All iOS Versions)
-1. **Download AltStore** from [altstore.io](https://altstore.io)
-2. **Install** via computer (Windows/Mac)
-3. **Download** the `.ipa` from GitHub releases
-4. **Open** in AltStore and install
-5. **Refresh** every 7 days (free) or get AltStore Pro for 1 year
+### Method 2: Chrome Installation
+1. **Open Chrome** on your iPhone
+2. **Go to**: `https://mari0t.github.io/momentum/`
+3. **Tap the menu** (three dots)
+4. **Tap "Add to Home Screen"**
+5. **Tap "Add"** - Done! 🎉
 
-### Method 3: Sideloadly (Free, No Computer Needed)
-1. **Download Sideloadly** from [sideloadly.io](https://sideloadly.io)
-2. **Connect** your iPhone via USB
-3. **Drag** the `.ipa` file to Sideloadly
-4. **Enter** your Apple ID (free account works)
-5. **Install** directly to your device
+## ✅ What You Get:
+- ✅ **Real app icon** on your home screen
+- ✅ **Works offline** completely
+- ✅ **No App Store** needed
+- ✅ **No 7-day refresh** needed
+- ✅ **Full screen** experience
+- ✅ **Native app** feel
+- ✅ **No Apple Developer** account required
 
 ## 🔧 Troubleshooting
 
-### "Untrusted Developer" Error
-1. Go to **Settings** > **General** > **VPN & Device Management**
-2. Find your app under **Developer App**
-3. Tap **Trust** and confirm
+### "Add to Home Screen" Not Available
+- Make sure you're using **Safari** or **Chrome**
+- Try **refreshing** the page
+- Check that you're on the **main page** (not a sub-page)
 
-### App Won't Install
-- Make sure you have **iOS 13.0** or later
-- Check that you have **enough storage** space
-- Try **restarting** your iPhone
-- **Delete** any previous versions first
+### App Won't Work Offline
+- **First visit** the app while online
+- **Wait** for it to fully load
+- **Close and reopen** - now it works offline!
 
-### App Expires (AltStore/Sideloadly)
-- **AltStore**: Refresh every 7 days
-- **Sideloadly**: Reinstall every 7 days
-- **Direct Safari**: No expiration! 🎉
+### App Looks Different
+- **Clear Safari cache** and try again
+- Make sure you're using the **latest version**
 
 ## 🚀 Getting Started
 
 Once installed, your Momentum app will:
 - ✅ Work **completely offline**
-- ✅ No **7-day refresh** needed (with direct Safari install)
+- ✅ **No refresh** needed
 - ✅ **Full native** iOS experience
 - ✅ **No Apple Developer** account required
 - ✅ **Free** to install and use
@@ -57,10 +56,10 @@ Once installed, your Momentum app will:
 
 If you have any issues:
 1. Check the **GitHub Issues** page
-2. Make sure you're using the **latest build**
-3. Try **different installation methods**
-4. **Restart** your device
+2. Make sure you're using **Safari** or **Chrome**
+3. Try **refreshing** the page first
+4. **Restart** your device if needed
 
 ---
 
-**🎉 Enjoy your new iOS app!** No more web browser needed - it's a real native app now!
+**🎉 Enjoy your new iOS app!** It's a real PWA that works exactly like a native app!

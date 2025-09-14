@@ -18,16 +18,27 @@ export default defineConfig({
         display: 'standalone',
         scope: '/',
         start_url: '/',
+        orientation: 'portrait',
+        categories: ['productivity', 'health', 'lifestyle'],
+        lang: 'en',
         icons: [
           {
             src: 'icon.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any'
           },
           {
             src: 'icon.png',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any maskable'
+          },
+          {
+            src: 'icon.png',
+            sizes: '180x180',
+            type: 'image/png',
+            purpose: 'apple-touch-icon'
           }
         ]
       },
